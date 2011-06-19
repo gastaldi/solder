@@ -1,8 +1,8 @@
 package org.jboss.seam.solder.converter;
 
 import java.lang.reflect.Type;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.enterprise.event.Observes;
 import javax.enterprise.inject.spi.AnnotatedType;
@@ -17,7 +17,7 @@ import org.jboss.seam.solder.reflection.Reflections;
 @SuppressWarnings("rawtypes")
 public class ConverterExtension implements Extension {
 
-    private Set<ClassTuple> classTuples = new HashSet<ClassTuple>();
+    private Map<ClassTuple,Class<Converter>> classTuples = new HashMap<ClassTuple,Class<Converter>>();
     private AnnotatedType<Converter> defaultConverterType;
 
     public void discoverAnnotatedType(@Observes ProcessAnnotatedType<Converter> pb) {
@@ -31,7 +31,7 @@ public class ConverterExtension implements Extension {
         if (types.length == 2) {
             Class<?> fromClass = (Class<?>) types[0];
             Class<?> toClass = (Class<?>) types[1];
-            classTuples.add(new ClassTuple(fromClass, toClass));
+            classTuples.put(new ClassTuple(fromClass, toClass),annotatedType.getJavaClass());
         }
     }
 

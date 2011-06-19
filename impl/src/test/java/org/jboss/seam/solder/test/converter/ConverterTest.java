@@ -4,7 +4,6 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
 import javax.enterprise.inject.spi.Extension;
-import javax.inject.Inject;
 
 import org.jboss.arquillian.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
@@ -37,19 +36,23 @@ import org.junit.runner.RunWith;
 @RunWith(Arquillian.class)
 public class ConverterTest {
 
-    @Inject
-    private Converter<String, Integer> converter;
-
     @Test
-    public void testConverterInjection() throws Exception {
+    public void testConverterInjection(Converter<String, Integer> converter) throws Exception {
         assertNotNull(converter);
     }
 
     @Test
-    public void testConversion() throws Exception {
+    public void testConversion(Converter<String, Integer> converter) throws Exception {
         Integer result = converter.convert("123");
         assertNotNull(result);
         assertEquals(123, result.intValue());
+    }
+
+    @Test
+    public void testConversionString(Converter<Integer, String> converter) throws Exception {
+        String result = converter.convert(123);
+        assertNotNull(result);
+        assertEquals("123", result);
     }
 
     /**
