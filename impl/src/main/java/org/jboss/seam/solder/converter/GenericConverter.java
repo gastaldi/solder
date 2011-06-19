@@ -55,13 +55,11 @@ public class GenericConverter implements Converter {
 
     private Object tryWithValueOf(Object source) {
         try {
-            return destinationClass.getMethod("valueOf", sourceClass).invoke(null, source);
-        } catch (NoSuchMethodException nsme) {
             try {
+                return destinationClass.getMethod("valueOf", sourceClass).invoke(null, source);
+            } catch (NoSuchMethodException nsme) {
                 return destinationClass.getMethod("valueOf", (Class) sourceClass.getField("TYPE").get(null)).invoke(null,
                         source);
-            } catch (Exception ex) {
-                return null;
             }
         } catch (Exception e) {
             return null;
