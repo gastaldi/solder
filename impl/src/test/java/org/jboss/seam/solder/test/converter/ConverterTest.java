@@ -41,14 +41,14 @@ public class ConverterTest {
         assertNotNull(converter);
     }
 
-    @Test
+    @Test 
     public void testConversion(Converter<String, Integer> converter) throws Exception {
         Integer result = converter.convert("123");
         assertNotNull(result);
         assertEquals(123, result.intValue());
     }
 
-    @Test
+    @Test 
     public void testConversionString(Converter<Integer, String> converter) throws Exception {
         String result = converter.convert(123);
         assertNotNull(result);
