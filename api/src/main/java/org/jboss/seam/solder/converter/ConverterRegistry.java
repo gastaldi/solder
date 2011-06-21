@@ -7,9 +7,13 @@ package org.jboss.seam.solder.converter;
  * 
  */
 public interface ConverterRegistry {
-    <S, T> void registerConverter(Class<S> from, Class<T> to, Converter<S, T> converter);
+    /**
+     * Add a plain converter to this registry. The convertible sourceType/targetType pair is specified explicitly. Allows for a
+     * Converter to be reused for multiple distinct pairs without having to create a Converter class for each pair.
+     */
+    void registerConverter(Class<?> sourceType, Class<?> targetType, Converter<?, ?> converter);
 
-    <S, T> Converter<S, T> unregisterConverter(Class<S> from, Class<T> to);
+    Converter<?, ?> unregisterConverter(Class<?> sourceType, Class<?> targetType);
 
     <S, T> Converter<S, T> getConverter(Class<S> from, Class<T> to) throws ConverterNotFoundException;
 }

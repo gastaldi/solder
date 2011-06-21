@@ -24,15 +24,13 @@ public class DefaultConverterRegistry implements ConverterRegistry {
     }
 
     @Override
-    public <S, F> void registerConverter(Class<S> from, Class<F> to, Converter<S, F> converter) {
-        ClassTuple tuple = new ClassTuple(from, to);
-        registry.put(tuple, converter);
+    public void registerConverter(Class<?> sourceType, Class<?> targetType, Converter<?, ?> converter) {
+        registry.put(new ClassTuple(sourceType, targetType), converter);
     }
 
     @Override
-    @SuppressWarnings("unchecked")
-    public <S, F> Converter<S, F> unregisterConverter(Class<S> from, Class<F> to) {
-        return (Converter<S, F>) registry.remove(new ClassTuple(from, to));
+    public Converter<?, ?> unregisterConverter(Class<?> sourceType, Class<?> targetType) {
+        return registry.remove(new ClassTuple(sourceType, targetType));
     }
 
     @Override
@@ -42,9 +40,9 @@ public class DefaultConverterRegistry implements ConverterRegistry {
      */
     public <S, F> Converter<S, F> getConverter(Class<S> from, Class<F> to) throws ConverterNotFoundException {
         return (Converter<S, F>) new ValueOfConverter(from, to);
-        
-        //        ClassTuple tuple = new ClassTuple(from, to);
-//        return (Converter<S, F>) registry.get(tuple);
+
+        // ClassTuple tuple = new ClassTuple(from, to);
+        // return (Converter<S, F>) registry.get(tuple);
     }
 
     /**
